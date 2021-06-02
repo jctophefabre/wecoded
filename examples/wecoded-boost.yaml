@@ -1,0 +1,14 @@
+repositories:
+  - name: boost-foreach
+    url: https://github.com/boostorg/foreach
+  - name: boost-property_tree
+    url: https://github.com/boostorg/property_tree
+    revision: boost-1.69.0
+  - name: boost-uuid
+    url: https://github.com/boostorg/uuid
+    revision: boost-1.69.0
+
+authors:
+  - name: 'James E. King III'
+    aliases: 
+      - 'James E. King, III'

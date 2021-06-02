@@ -1,0 +1,27 @@
+repositories:
+  - name: openfluid
+    url: https://github.com/openfluid/openfluid
+    revision: v2.1.11
+  - name: ropenfluid
+    url: https://github.com/openfluid/ropenfluid
+    revision: v2.1.11
+  - name: pyopenfluid
+    url: https://github.com/openfluid/pyopenfluid
+    revision: develop
+  - name: openfluidjs
+    url: https://github.com/openfluid/openfluidjs
+    revision: develop
+  - name: openfluid-community
+    url: https://github.com/openfluid/openfluid-community-docs
+    revision: master
+
+authors:
+  - name: 'Jean-Christophe Fabre'
+    aliases:
+      - 'fabrejc'
+  - name: 'Armel Thoni'
+    aliases:
+      - 'A Thoni'
+  - name: 'Michael Rabotin'
+    aliases:
+      - 'rabotin'
