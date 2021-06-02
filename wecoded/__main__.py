@@ -23,28 +23,32 @@ class WeCoded():
         with open(self.args["config_file"], 'r') as YAMLFile:
             self.config = yaml.load(YAMLFile, Loader=yaml.FullLoader)
 
-    def get_author_name(self, author):
-        for n in self.config["authors"]:
-            if author in n["aliases"]:
-                return n["name"]
+    def __get_author_name(self, author):
+        if "authors" in self.config:
+            for n in self.config["authors"]:
+                if author in n["aliases"]:
+                    return n["name"]
         return author
 
     def run(self):
         os.makedirs(self.args["workpath"], exist_ok=True)
         self.__load_config()
         if not self.args["no_clone"]:
-            self.clone_repositories()
+            self.__clone_repositories()
         if not self.args["no_stats"]:
-            self.compute_stats()
-            self.write_stats()
+            self.__compute_stats()
+            self.__write_stats()
 
-    def clone_repositories(self):
+    def __clone_repositories(self):
         for r in self.config["repositories"]:
             print("### Cloning", r["name"], "####################")
-            cmd = ["git", "clone", r["url"], "-b", r["revision"], r["name"]]
+            cmd = ["git", "clone", r["url"]]
+            if "revision" in r:
+                cmd.extend(["-b", r["revision"]])
+            cmd.append(r["name"])
             subprocess.run(cmd, cwd=self.args["workpath"])
 
-    def compute_stats(self):
+    def __compute_stats(self):
         for r in self.config["repositories"]:
             print("### Computing stats for", r["name"], "####################")
             cmd = ["git", "summary", "--line"]
@@ -59,14 +63,14 @@ class WeCoded():
                     data = data[:-1]  # remove latest field (percentage)
                     count = int(data[0])
                     author = " ".join(data[1:])  # join all fields fbut first for author name
-                    author = self.get_author_name(author)
+                    author = self.__get_author_name(author)
                     if author not in stats:
                         stats[author] = 0
                     stats[author] += count
                     self.found_authors.add(author)
             self.all_stats[r["name"]] = stats
 
-    def write_stats(self):
+    def __write_stats(self):
         with open(os.path.join(self.args["workpath"], "stats.csv"), 'w', newline='') as csvfile:
             fields = list()
             fields.append('author')
